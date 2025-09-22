@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Animal</title>
+    <link rel="stylesheet" href="stylesinfo.css">
+</head>
+<body>
+    <div class="container">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="animal-name"></h2>
+            </div>
+            <div class="modal-body">
+                <img id="animal-image" src="" alt="Imagem do Animal">
+                <div class="details1">
+                    <div class="detail-card"><h5>Nomes conhecidos</h5><p id="known-names"></p></div>
+                    <div class="detail-card"><h5>Nome científico</h5><p id="scientific-name"></p></div>
+                    <div class="detail-card"><h5>Família</h5><p id="family"></p></div>
+                    <div class="detail-card"><h5>Alimentação</h5><p id="food"></p></div>
+                    <div class="detail-card"><h5>Ordem</h5><p id="order"></p></div>
+                </div>
+                <div class="details2">
+                    <div class="detail-card"><h5>Hábitos</h5><p id="habits"></p></div>
+                    <div class="detail-card"><h5>Divisão</h5><p id="division"></p></div>
+                    <div class="detail-card"><h5>Curiosidades</h5><p id="curiosities"></p></div>
+                    <div class="detail-card"><h5>Habitat</h5><p id="habitat"></p></div>
+                    <div class="detail-card"><h5>Distribuição geográfica</h5><p id="geographic-distribution"></p></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="history.back()">Voltar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para obter parâmetros da URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param) || "";
+        }
+
+        // Função de resolver imagem
+        function imageResolver(name = "") {
+            const cleanName = name.trim().replace(/\.$/, "");
+            const images = {
+ "Perereca-de-ampulheta": "https://s2.glbimg.com/GhiGbXbjNvU9RyKpAd0j_nNTf_M=/0x0:1920x1080/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2017/I/5/Za8a6LSKWO6iXNt3pRXA/ampulheta.jpg",
+    "Pica-pau-de-cabeça-amarela": "https://th.bing.com/th/id/R.90d4defd44afbc1e046d0357876e3f67?rik=gUvMZM6HG7B8LA&pid=ImgRaw&r=0",
+    "Noivinha-branca": "https://s3.amazonaws.com/media.wikiaves.com.br/images/364/463818_a102e199c37f8e41a416e0ebf03731f2.jpg",
+    "Fim-fim": "https://s3.amazonaws.com/media.wikiaves.com.br/images/3881/1883265_f0713848cf21fdca3fd1fd6ed7e3a34e.jpg",
+    "Beija-flor-dourado": "https://th.bing.com/th/id/R.79dc08695d97a4b81742929c4ac0d43f?rik=C%2bz1Ecq4IT9j4w&pid=ImgRaw&r=0",
+    "Perereca-do-brejo": "https://1.bp.blogspot.com/-xOdIqTpIbYs/XnYd7xSPO1I/AAAAAAAAGUg/6KDFKeqy0IIJIH7b2_GusiLYlJvAM84HQCLcBGAsYHQ/s1600/Pseudophilautus%2Bdilmah%2B2.JPG",
+    "Saíra-de-chapéu-preto": "https://th.bing.com/th/id/OIP.r6bm7snQX-VkqQEbnKX8gwHaD4?rs=1&pid=ImgDetMain",
+    "Pintassilgo": "https://canberrabirds.org.au/wp-content/uploads/2012/06/74EuropeanGoldfinchLndsayHansch-227x300.jpg",
+    "Pica-pau-verde-barrado": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSrIdZvdaXjbU0tCCCVrS0BqNgY3tbnfQaR15E0ADVtqDOGPdiQ",
+    "Bentevizinho-de-penacho-vermelho": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSAs9vkuqmTRgUo4eyxTseBtgvjOGAIHoqYsXMo0WSV6kUrB5E4",
+    "Risadinha": "https://th.bing.com/th/id/OIP.vyKqj3fDgc80tfHN8JPFBQHaFH?rs=1&pid=ImgDetMain",
+    "Tico-tico-rei": "https://th.bing.com/th/id/R.f4254ee71cfd8cdf86cf63db2f987dc2?rik=W46ah%2b0Nb4Djew&pid=ImgRaw&r=0",
+    "Alma-de-gato": "https://i.pinimg.com/originals/94/4a/4d/944a4da76011e86928e48b457c5f90c1.jpg",
+    "Urutau": "https://th.bing.com/th/id/OIP.cxYo3GlLkbv8xKI_sN_hfgHaE0?rs=1&pid=ImgDetMain",
+    "Formiga-tartaruga": "https://th.bing.com/th/id/OIP.GJGViJXlRcOgxOBFXlHBdAHaHa?rs=1&pid=ImgDetMain",
+    "Quati": "https://www.ivoti.rs.gov.br/admin/imagens/noticias/whatsapp-image-2024-04-03-at-10.45.52-am.jpeg",
+    "Perereca-cabrinha": "https://www.nativealimentos.com.br/upload/gallery/hypsiboas-albopunctatus-spix-1824-8994-default.jpg",
+    "Lavadeira-mascarada": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Lavadeira_mascarada.jpg",
+    "Quiriquiri": "https://www.jornalcruzeiro.com.br/_midias/jpg/2021/12/17/quiriquiri-828115.jpg",
+    "Guaracavuçu": "https://s3.amazonaws.com/media.wikiaves.com.br/images/4201/1024753q_73096d545173f852915248a17e5ca945.jpg",
+    "Coleirinho": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Sporophila_caerulescens_%28cropped%29.jpg",
+    "Andorinha-pequena-de-casa": "https://cdn.download.ams.birds.cornell.edu/api/v1/asset/206165521/900",
+    "Anu-preto": "https://files.agro20.com.br/uploads/2020/02/anu-preto-2.jpg",
+    "Falcão-de-coleira": "https://www.wikiaves.com.br/wa-media/273564r_5cfc902c3bdfb6120f4c15d7f42ca0dd.jpg",
+    "Maria-faceira": "https://s2.glbimg.com/W1vpAJO8jdrPjZNJUqYiu4X2ll0=/696x390/top/smart/s.glbimg.com/jo/g1/f/original/2015/02/20/0129.jpg",
+    "Polícia-inglesa-do-sul": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSea_VyjzDfUTB8EWrB4YI_ME1XqzHsGWFGvA&s",
+    "Pica-pau-do-campo": "https://amoaves.com.br/wp-content/uploads/2021/04/08_Pica-pau-do-campo_Luiz-Effgen.jpg",
+    "Pardal": "https://th.bing.com/th/id/OIP.HFpgQZZz3BggQ34hMNN1eAHaE8?w=236&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+    "Beija-flor-de-peito-azul": "https://th.bing.com/th/id/OIP.X_qbdboG87CraDxlWeqd_wHaFU?rs=1&pid=ImgDetMain",
+    "Vaquinha": "https://www.iriisphytoprotection.qc.ca/Images/IRIIS_Images/vignettes/vignette_3921.jpg",
+    "Gavião-de-cauda-curta": "https://th.bing.com/th/id/OIP.J-lH2vEG1JBDMDVnqym2lgHaFj?rs=1&pid=ImgDetMain",
+    "Perereca-de-folhagem": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Pithecopus_ayeaye%2C_Minas_Gerais%2C_BR_imported_from_iNaturalist_photo_461168119.jpg/1200px-Pithecopus_ayeaye%2C_Minas_Gerais%2C_BR_imported_from_iNaturalist_photo_461168119.jpg",
+    "Teiú": "https://www.petz.com.br/blog/wp-content/uploads/2023/08/Topo-lagarto-teiu-ok.jpg",
+    "Urubu-preto": "https://s2-g1.glbimg.com/PNql1-14C8Cje6RsPnJzeO7uQfw=/0x0:2048x1365/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2018/i/W/6S95u6TrW9iDdMJwOSAQ/40172417-2158979737468536-1666081392519282688-o.jpg",
+    "Coruja-Buraqueira": "https://s3.amazonaws.com/media.wikiaves.com.br/images/509/905038_faa48b05dc19ac5b27d8a37c74b1c6e2.jpg",
+    "Mariposa leopardo": "https://naturezaterraquea.wordpress.com/wp-content/uploads/2019/09/original-2.jpg",
+    "Piolho-de-cobra": "https://www.portal.zoo.bio.br/IMG/jpg/polydesmida.jpg",
+    "Tiziu": "https://ninhodoscolibris.com.br/wp-content/uploads/2021/05/TIZIU-NINHO-617x877.jpg",
+    "Tesourinha": "https://naturezaterraquea.wordpress.com/wp-content/uploads/2022/09/original.jpeg",
+    "Periquito-de-encontro-amarelo": "https://www.zoo.df.gov.br/wp-content/uploads/2020/02/Periquito-do-encontro-amarelo-Ronaldo-Koloszuk.jpg",
+    "Irerê": "https://www.wikiaves.com.br/wa-media/350989r_d6a16dbb5ee46469a335009501097bb7.jpg",
+    "Martim-pescador-verde": "https://s3.amazonaws.com/media.wikiaves.com.br/images/0832/2380875_f00a914e9548ca82037b961d3cc01f1c.jpg",
+    "Sabiá-do-campo": "https://s3.amazonaws.com/media.wikiaves.com.br/images/041/140773_ab1471fea3c1bc841556d8a8f9e04ed0.jpg",
+    "Urubu-de-cabeça-vermelha": "https://s3.amazonaws.com/media.wikiaves.com.br/images/271/172034g_066bd092afbaea750c165baa4d8f8416.jpg",
+    "Arapaçu-de-cerrado": "https://www2.camara.leg.br/a-camara/estruturaadm/gestao-na-camara-dos-deputados/responsabilidade-social-e-ambiental/ecocamara/recursos/bosque-dos-constituintes/avifauna/9.ArapaudocerradoC.jpg/image",
+    "Avoante": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Zenaida_auriculata_%28Eared_Dove%29.jpg",
+    "Bico-de-lacre": "https://s2-g1.glbimg.com/qYHid56eiogy7pr6BQIGHxgaanI=/0x0:1200x800/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2019/1/h/neQilJSEaZj6FOmeY9tw/bico-de-lacre.jpg",
+    "Carcará": "https://i.pinimg.com/736x/05/b6/15/05b6150ed304b9f2f09ad957f4ec9cc0.jpg",
+    "Chupim-do-brejo": "https://cultura.jundiai.sp.gov.br/wp-content/uploads/2019/10/Chupim-do-Brejo.jpg",
+    "Mariquita": "https://www.wikiaves.com.br/wa-media/398373r_9ddba83498c83ac9071ead6902a4cd7b.jpg",
+    "Tico-tico": "https://cultura.jundiai.sp.gov.br/wp-content/uploads/2019/10/Tico-tico.jpg",
+    "Tico-tico-do-campo": "https://photoaves.com/wp-content/uploads/aves/passerellidae/tico-tico-do-campo-1.jpg",
+    "Ferreirinho-relógio": "https://www.wikiaves.com.br/wa-media/108708r_ac5c4cfd6385cce78e7a42804006da6d.jpg",
+    "Papagaio-verdadeiro": "https://www.infoescola.com/wp-content/uploads/2016/09/papagaio-verdadeiro_768116731.jpg",
+    "Periquitão": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/89467521/1200",
+    "Pica-pau-anão-escamado": "https://pbs.twimg.com/media/GNs_4YNXMAApaTJ.jpg",
+    "Pica-pau-branco": "https://s3.amazonaws.com/media.wikiaves.com.br/images/141/141844_c9046f1fef83f8d0181482c11e34edd2.jpg",
+    "Besourinho-de-bico-vermelho": "https://amoaves.com.br/wp-content/uploads/2021/01/02092014-BEIJA-F.-BESOURINHO-DE-B.-VERM-1-MF-03-02SET2014p.jpg",
+    "Peitica": "https://s3.amazonaws.com/media.wikiaves.com.br/images/772/277215q_ba897f3cd41be6b9ec8151b0345eaa63.jpg",
+    "Sabiá-barranco": "https://cobasiblog.blob.core.windows.net/production-ofc/2023/12/sabia-barranco-capa.webp",
+    "Sabiá-poca": "https://casadospassaros.net/wp-content/uploads/2017/08/Saiba-Tudo-Sobre-o-Sabia-Poca.jpg",
+    "Tucão": "https://www.wikiaves.com.br/wa-media/3422145r_8d5562a70855c5b00f082e2fe5ac6911.jpg",
+    "Bem-te-vi-rajado": "https://upload.wikimedia.org/wikipedia/commons/1/12/Myiodynastes_maculatus_-Piraju%2C_Brasil-8.jpg",
+    "Neinei": "https://s3.amazonaws.com/media.wikiaves.com.br/images/373/373028q_0602f60eb546a8703a2a9fd36a940253.jpg",
+    "Príncipe": "https://s3.amazonaws.com/media.wikiaves.com.br/images/0081/1800902_5d72268ae67fa59a4fa00befa06212c8.jpg",
+    "Suiriri": "https://s3.amazonaws.com/media.wikiaves.com.br/images/3591/1953685_168e113ced52551724b6fde97152ff9a.jpg",
+    "Anu-branco": "https://cultura.jundiai.sp.gov.br/wp-content/uploads/2019/10/Anu-branco.jpg",
+    "Bem-te-vi": "https://files.agro20.com.br/uploads/2020/03/Bem-te-vi-3-1024x576.jpg",
+    "Cambacica": "https://s2.glbimg.com/ly1d11ZNHYYQLU7o4WS5-sE3hVs=/1200x630/s.glbimg.com/jo/g1/f/original/2016/07/08/cambacica_coereba_flaveola.jpg",
+    "Choró-boi": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Taraba_major-Great_Antshrike_%28Male%29.JPG",
+    "Gavião-carijó": "https://photoaves.com/wp-content/uploads/aves/accipitridae/gaviao-carijo.jpg",
+    "João-de-barro": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Rufous_Hornero_%28Furnarius_rufus%29.jpg/1200px-Rufous_Hornero_%28Furnarius_rufus%29.jpg",
+    "Quero-quero": "https://www.fclar.unesp.br/Home/Instituicao/Administracao/DiretoriadeServicos/queroquero.png",
+    "Pica-pau-de-banda-branca": "https://cdn.download.ams.birds.cornell.edu/api/v2/asset/234655651/900",
+    "Pica-pau-pequeno": "https://casadospassaros.net/wp-content/uploads/2018/11/Saiba-Tudo-Sobre-o-Pica-pau-anao-barrado.jpg",
+    "Canário-da-terra": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Saffron_finch_%28Sicalis_flaveola%29_male.JPG/1200px-Saffron_finch_%28Sicalis_flaveola%29_male.JPG",
+    "Choca-barrada": "https://s3.amazonaws.com/media.wikiaves.com.br/images/3953/3593953_dcc9fbf4a8723d521ffe01acbf6a7f53.jpg",
+    "Coleirinho": "https://s3.amazonaws.com/media.wikiaves.com.br/images/7024/4207126_b97459a9f48ca4917ebf08f5a19644c0.jpg",
+    "Curicaca": "https://s3.amazonaws.com/media.wikiaves.com.br/images/5181/1815444_4fe3a6fd364e88ff3c78fd85f74472fe.jpg",
+    "Saí-canário": "https://amoaves.com.br/wp-content/uploads/2022/12/23122022-IMG_9683PS.jpg",
+    "Sanhaço-cinzento": "https://s2.glbimg.com/s3AdAIOLF6vzpHqeRFIulfmIC_E=/1200x630/s.glbimg.com/jo/g1/f/original/2015/11/30/sanhacu-cinzento-tangara-sayaca.jpg",
+
+    "Sibipiruna": "https://tse1.mm.bing.net/th/id/OIP.wOdFmo1LavQibKKgs8WXYQHaGA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "Leiteiro": "https://tse4.mm.bing.net/th/id/OIP.-ZvABxCY-QNV5vbArOzqXgHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "Guaritá": "https://images.tcdn.com.br/img/img_prod/694142/sementes_de_guarita_astronium_graveolens_com_casca_647_4_20190731104518.jpg",
+    "Graviola": "https://i.etsystatic.com/34286555/r/il/258fed/3899358712/il_340x270.3899358712_8j5i.jpg",
+    "Peroba rosa": "https://tse4.mm.bing.net/th/id/OIP.SLJeK2TaPSfNfsQrDci9hQHaE6?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+    "Araucária": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Araucaria_en_Parque_Nacional_Conguillio.jpg/1200px-Araucaria_en_Parque_Nacional_Conguillio.jpg",
+    "Areca-bambu": "https://www.cultivando.com.br/wp-content/uploads/2016/06/Areca_bambu-768x928.jpg",
+    "Palmeira-leque": "https://www.floresefolhagens.com.br/wp-content/uploads/2017/12/palmeira-leque-licuala-grandis-1-1.jpg?x39617",
+    "Palmeira real": "https://static3.tcdn.com.br/img/img_prod/450860/1204_1_20190611093951.jpg",
+    "Jerivá": "https://thumbs.dreamstime.com/b/queen-palm-tree-species-syagrus-romanzoffiana-queen-palm-tree-204450196.jpg",
+    "Dracena": "https://th.bing.com/th/id/R.c2f4575cc7230bd1a0a6a86eacecbbf4?rik=ZpXMSztoNF3wPQ&pid=ImgRaw&r=0",
+    "Colorau": "https://i.pinimg.com/736x/13/82/aa/1382aa621231d47c3341f675b73311a7--achiote-tropical-fruits.jpg",
+    "Paineira": "https://images.tcdn.com.br/img/img_prod/450860/muda_de_paineira_rosa_ceiba_speciosa_652_1_20160122170152.jpg"          
+  };
+            return images[cleanName] || "";
+        }
+
+        // Preenche os dados do modal
+        document.getElementById('animal-name').innerText = getQueryParam('name');
+        document.getElementById('animal-image').src = imageResolver(getQueryParam('name'));
+        document.getElementById('known-names').innerText = getQueryParam('known_names');
+        document.getElementById('scientific-name').innerText = getQueryParam('scientific_name');
+        document.getElementById('family').innerText = getQueryParam('family');
+        document.getElementById('food').innerText = getQueryParam('food');
+        document.getElementById('order').innerText = getQueryParam('order');
+        document.getElementById('habits').innerText = getQueryParam('habits');
+        document.getElementById('division').innerText = getQueryParam('division');
+        document.getElementById('curiosities').innerText = getQueryParam('curiosities');
+        document.getElementById('habitat').innerText = getQueryParam('habitat');
+        document.getElementById('geographic-distribution').innerText = getQueryParam('geographic_distribution');
+    </script>
+</body>
+</html>

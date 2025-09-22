@@ -1,0 +1,127 @@
+/* Fundo geral com imagem */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("./images/fundo3.png") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 100vh;
+    overflow: hidden; /* remove rolagem da tela inteira */
+}
+
+/* Retângulo azul que engloba tudo */
+.container {
+    background-color: #156AC7; /* Azul */
+    border-radius: 12px;
+    padding: 20px 20px; /* Reduzi o padding de cima/baixo */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px; /* largura máxima do container */
+    box-sizing: border-box;
+}
+
+/* Cabeçalho */
+.modal-header {
+    text-align: center;
+    margin-bottom: 20px; /* Pequeno ajuste */
+    width: 100%;
+}
+
+.modal-header h2 {
+    color: white;
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+    padding-top: 10px; /* Aproxima o título do topo */
+}
+
+/* Corpo do modal */
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Imagem do animal */
+.modal-body img {
+    width: 240px;
+    height: 200px;
+    border-radius: 12px;
+    border: 4px solid #0CBB68; /* Verde */
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+/* Grid de cards */
+.details1, .details2 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 cards por linha */
+    gap: 10px;
+    justify-items: stretch;
+    width: 100%;
+    max-width: 100%; /* não deixa ultrapassar o container */
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+/* Card de detalhe */
+.detail-card {
+    background-color: #86EFAC; /* Verde claro */
+    border-radius: 10px;
+    padding: 8px;
+    width: 100%; /* ocupa toda a coluna da grid */
+    max-width: 200px; /* limite máximo */
+    height: 100px;
+    overflow-y: auto; /* rolagem interna se o conteúdo passar */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: #065F46; /* verde escuro */
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Hover */
+.detail-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.detail-card h5 {
+    margin: 0 0 5px 0;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.detail-card p {
+    margin: 0;
+    font-size: 13px;
+}
+
+/* Footer */
+.modal-footer {
+    text-align: center;
+    margin-top: 20px; /* Aproxima o botão da base do container */
+    width: 100%;
+}
+
+.modal-footer button {
+    padding: 10px 25px; /* botão um pouco maior */
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #0CBB68;
+    color: white;
+    transition: 0.3s;
+}
+
+.modal-footer button:hover {
+    background-color: #0a9c52;
+}
