@@ -1,0 +1,132 @@
+/* Resetando margens e padding para garantir que o mapa ocupe toda a tela */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Garante que o mapa ocupe toda a tela */
+#map {
+  height: 100%;
+  width: 100%;
+  display: block;
+  /* Garante que o mapa será um bloco e ocupe todo o espaço */
+}
+
+/* ==================== POPUP CUSTOMIZADO ==================== */
+.leaflet-popup-content-wrapper {
+  background: #1d4ed8; /* fundo azul (removendo branco) */
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: none; /* remove sombra branca padrão */
+}
+
+.leaflet-popup-tip {
+  background: #1d4ed8; /* seta da mesma cor */
+}
+
+.leaflet-popup-content {
+  margin: 0; /* remove espaçamento interno */
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.5;
+  color: #fff; /* agora branco para contrastar */
+}
+
+.leaflet-popup-content b {
+  font-size: 16px;
+  color: #fff;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ==== IMAGEM NO POPUP ==== */
+.leaflet-popup-content img {
+  max-width: 100px; /* controla tamanho */
+  height: auto;
+  display: block;
+  margin: 0 auto 8px auto;
+  border-radius: 6px;
+}
+
+/* ==== BOTÃO NO POPUP ==== */
+.leaflet-popup-content a {
+  display: inline-block;
+  background-color: #10b981; /* verde */
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.leaflet-popup-content a:hover {
+  background-color: #059669;
+}
+
+/* Melhorando o estilo do ícone de texto */
+.custom-icon div {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* ==================== BOTÕES DO MAPA ==================== */
+.map-buttons {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 16px;
+}
+
+/* Remove estilo padrão do botão e aplica novo estilo */
+.map-buttons button {
+  all: unset;
+  background-color: #0CBB68;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Hover */
+.map-buttons button:hover {
+  background-color: #059f58;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Active (pressionado) */
+.map-buttons button:active {
+  background-color: #04844b;
+  transform: translateY(1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+html,
+body,
+#map {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
