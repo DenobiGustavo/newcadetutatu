@@ -4,7 +4,7 @@
 var map = L.map('map', {
   center: [-23.1080, -50.3570], // Centralizado na UENP
   zoom: 16,
-  zoomControl: true
+  zoomControl: false
 });
 
 // Camada base do mapa

@@ -130,3 +130,18 @@ body,
   margin: 0;
   padding: 0;
 }
+
+/* === Cor única amarela para todos os clusters === */
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background-color: #FFD700 !important; /* amarelo ouro */
+  color: black !important; /* texto preto para contraste */
+}
+
+/* Remove o degradê padrão */
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-image: none !important;
+}

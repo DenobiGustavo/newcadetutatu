@@ -231,8 +231,13 @@ body {
   .modal-body {
     padding: 15px;
     align-items: center;
+    user-select: none;       /* impede seleção de texto */
+    -webkit-user-select: none; /* compatibilidade com Safari */
+    -ms-user-select: none;   /* compatibilidade com IE/Edge antigos */
+    pointer-events: none;    /* torna os cards estáticos, sem cliques */
   }
 
+ 
   #animal-image {
     width: 90%;
     height: auto;
