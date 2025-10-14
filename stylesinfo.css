@@ -38,6 +38,8 @@ body {
   flex-direction: column;
   position: relative;
   padding-bottom: 15px;
+  margin-bottom: 40px;
+  margin-top: 40px;
 }
 
 /* ===== Cabeçalho ===== */
