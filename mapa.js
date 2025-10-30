@@ -19,9 +19,12 @@ const clusterGroup = L.markerClusterGroup({
 
 // Função para criar ícones
 function criarIcone(tipo) {
-  let url = 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'; // planta
-  if (tipo === '1') url = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-  if (tipo === '2') url = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png';
+  let url = 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'; // padrão planta
+
+  if (tipo === '1') url = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';      // vertebrado
+  if (tipo === '2') url = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png';       // invertebrado
+  if (tipo === 'Plantae') url = 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'; // planta
+
   return L.icon({
     iconUrl: url,
     iconSize: [30, 40],

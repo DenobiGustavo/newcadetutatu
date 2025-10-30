@@ -425,7 +425,15 @@ var data = [
       "curiosities": "Ampla distribuição, desde áreas baixas à leste dos Andes da Colômbia até Brasil, Bolívia, Uruguai e Argentina.",
       "division": "1",
       "reference": "VAZ-SILVA, W. et al. Guia de identificação das espécies de anfíbios... 2020; LEIVAS, P. T. et al. Trophic niche of Dendropsophus minutus, 2018."
-    }
+    },
+     "coordinates": [
+      {
+        "id": "06a911b8-de38-4383-9c13-4dde539732fe",
+        "lat": -23.110556,
+        "lng": -50.359444,
+        "data": "18/06/2021"
+      }
+    ]
   },
   {
     "id": "41f7d726-1490-4f2a-b393-76220b0983d8",
@@ -574,7 +582,15 @@ var data = [
       "curiosities": "Ocorre do México à Argentina, no Brasil principalmente nas regiões sul e sudeste.",
       "division": "2",
       "reference": "BRUSCA, Ricardo C.; MOORE, Wendy; SHUSTER, Stephen M. Invertebrados, 3ª edição. Grupo GEN, 2018. ISBN 9788527733458. p. 795 - 839"
-    }
+    },
+    "coordinates": [
+      {
+        "id": "39f211e0-6c89-45f9-8354-822b62b9044b",
+        "lat": -23.107222,
+        "lng": -50.358889,
+        "data": "03/06/2021"
+      }
+    ]
   },
   {
     "id": "761a27c7-a12a-4083-b4ed-74e46f424032",
@@ -589,7 +605,15 @@ var data = [
       "curiosities": "Ampla distribuição mundial, principalmente nos trópicos.",
       "division": "2",
       "reference": "BRUSCA, Ricardo C.; MOORE, Wendy; SHUSTER, Stephen M. Invertebrados, 3ª edição. Grupo GEN, 2018. ISBN 9788527733458. p. 843 - 856"
-    }
+    },
+        "coordinates": [
+      {
+        "id": "39f211e0-6c89-45f9-8354-822b62b9044b",
+        "lat": -23.107222,
+        "lng": -50.358889,
+        "data": "03/06/2021"
+      }
+    ]
   },
   {
     "id": "bf8e34e8-c7fe-423b-a631-978832c8fa6c",
@@ -1248,7 +1272,15 @@ var data = [
       "curiosities": "Distribuição: Maranhão ao Rio Grande do Sul, oeste até Mato Grosso, também Guianas, Venezuela, Colômbia, Equador, Peru, Bolívia, Paraguai, Uruguai e Argentina.",
       "division": "1",
       "reference": "WikiAves (2023) WikiAves, a Enciclopédia das Aves do Brasil. <http://www.wikiaves.com.br/>"
-    }
+    },
+      "coordinates": [
+      {
+        "id": "3fe16b01-6b09-4ac2-8b84-9a65613cbbcc",
+        "lat": -23.108611,
+        "lng": -50.359444,
+        "data": "13/08/2021"
+      }
+    ]
   },
   {
     "id": "67083754-5409-4439-8c8a-c51ae67d52e3",
