@@ -56,7 +56,9 @@ function urlInfo(specie) {
     curiosities: specie.curiosities,
     geographic_distribution: specie.geographic_distribution,
     image_url: specie.image_url,
-    image_credit: specie.image_credit
+    image_credit: specie.image_credit,
+    order: specie.order,
+    division: specie.division
   });
   return `info.html?${params.toString()}`;
 }
