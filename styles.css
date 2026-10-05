@@ -145,3 +145,36 @@ body,
 .marker-cluster-large {
   background-image: none !important;
 }
+
+
+/* ==================== AVISO DE CARREGAMENTO / ERRO ==================== */
+#status-mapa {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  max-width: calc(100vw - 32px);
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #1d4ed8;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+#status-mapa[hidden] {
+  display: none;
+}
+
+#status-mapa button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  background: #0CBB68;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

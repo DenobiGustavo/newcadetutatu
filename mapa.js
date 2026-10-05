@@ -33,6 +33,34 @@ function criarIcone(tipo) {
   });
 }
 
+// Os textos vem do Painel (editados por pesquisadores), entao nunca entram
+// no HTML do popup sem escapar.
+function escaparHtml(texto) {
+  return String(texto)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Link para a pagina de detalhes da especie (os dados seguem pela URL).
+function urlInfo(specie) {
+  const params = new URLSearchParams({
+    name: specie.name,
+    scientific_name: specie.scientific_name,
+    family: specie.family,
+    habitat: specie.habitat,
+    habits: specie.habits,
+    food: specie.food,
+    curiosities: specie.curiosities,
+    geographic_distribution: specie.geographic_distribution,
+    image_url: specie.image_url,
+    image_credit: specie.image_credit
+  });
+  return `info.html?${params.toString()}`;
+}
+
 // Função para criar popup estilizado
 function criarPopup(item) {
   return `
@@ -40,73 +68,105 @@ function criarPopup(item) {
       text-align:center;
       font-family:Arial,sans-serif;
       max-width:200px;
-      background-color:#156AC7; 
-      color: white; 
+      background-color:#156AC7;
+      color: white;
       padding: 10px;
       border-radius: 10px;
       box-sizing: border-box;
     ">
-      <h3 style="margin-bottom:8px;">${item.specie.name}</h3>
-      <button onclick="window.location.href='info.html?name=${encodeURIComponent(item.specie.name)}&scientific_name=${encodeURIComponent(item.specie.scientific_name)}&family=${encodeURIComponent(item.specie.family)}&habitat=${encodeURIComponent(item.specie.habitat)}&habits=${encodeURIComponent(item.specie.habits)}&food=${encodeURIComponent(item.specie.food)}&curiosities=${encodeURIComponent(item.specie.curiosities)}&geographic_distribution=${encodeURIComponent(item.specie.geographic_distribution)}&image_url=${encodeURIComponent(item.specie.image_url)}'"
+      <h3 style="margin-bottom:8px;">${escaparHtml(item.specie.name)}</h3>
+      <a href="${escaparHtml(urlInfo(item.specie))}"
         style="
-          margin-top:5px; 
-          padding:8px 12px; 
-          background-color:#0CBB68; 
-          color:white; 
-          border:none; 
-          border-radius:5px; 
+          display:inline-block;
+          margin-top:5px;
+          padding:8px 12px;
+          background-color:#0CBB68;
+          color:white;
+          text-decoration:none;
+          border-radius:5px;
           cursor:pointer;
         ">
         Saiba mais
-      </button>
+      </a>
     </div>
   `;
 }
 
 // ==========================
-// Adiciona marcadores do mapa
+// Adiciona marcadores do mapa (dados vem do Painel Cientifico)
 // ==========================
-const animaisComCoords = data.filter(a => a.coordinates && a.coordinates.length > 0);
+// So aparece o que tem ponto de observacao real: plantas do Painel nao
+// tem coordenada e por isso nao entram no mapa.
+let animaisComCoords = [];
 const jitter = 0.00003;
 const posicoesUsadas = {};
 
-// Marcadores animais
-animaisComCoords.forEach(animal => {
-  animal.coordinates.forEach(coord => {
-    let key = `${coord.lat.toFixed(6)}_${coord.lng.toFixed(6)}`;
-    let lat = coord.lat;
-    let lng = coord.lng;
+function adicionarMarcadores(itens) {
+  animaisComCoords = itens.filter(a => a.coordinates && a.coordinates.length > 0);
 
-    if (posicoesUsadas[key]) {
-      lat += (Math.random() - 0.5) * jitter;
-      lng += (Math.random() - 0.5) * jitter;
-    }
-    posicoesUsadas[key] = true;
+  animaisComCoords.forEach(animal => {
+    animal.coordinates.forEach(coord => {
+      let key = `${coord.lat.toFixed(6)}_${coord.lng.toFixed(6)}`;
+      let lat = coord.lat;
+      let lng = coord.lng;
 
-    const marker = L.marker([lat, lng], { icon: criarIcone(animal.specie.division) })
-      .bindPopup(criarPopup(animal));
+      if (posicoesUsadas[key]) {
+        lat += (Math.random() - 0.5) * jitter;
+        lng += (Math.random() - 0.5) * jitter;
+      }
+      posicoesUsadas[key] = true;
 
-    clusterGroup.addLayer(marker);
+      const marker = L.marker([lat, lng], { icon: criarIcone(animal.specie.division) })
+        .bindPopup(criarPopup(animal));
+
+      clusterGroup.addLayer(marker);
+    });
   });
-});
-
-// Marcadores plantas próximas
-data.forEach(item => {
-  if (!item.coordinates) {
-    const refAnimal = animaisComCoords[Math.floor(Math.random() * animaisComCoords.length)];
-    const refCoord = refAnimal.coordinates[0];
-    const lat = refCoord.lat + (Math.random() - 0.5) * jitter * 5;
-    const lng = refCoord.lng + (Math.random() - 0.5) * jitter * 5;
-
-    const marker = L.marker([lat, lng], { icon: criarIcone('planta') })
-      .bindPopup(criarPopup(item));
-
-    clusterGroup.addLayer(marker);
-  }
-});
+}
 
 // Adiciona cluster ao mapa
 map.addLayer(clusterGroup);
+
+// ==========================
+// Carregamento a partir do Painel (com aviso de carregando / erro)
+// ==========================
+// A API roda em plano gratuito: o primeiro acesso depois de um tempo parado
+// pode levar ate um minuto, por isso o aviso na tela.
+function mostrarStatus(mensagem, comTentarNovamente) {
+  const caixa = document.getElementById('status-mapa');
+  if (!caixa) return;
+  caixa.textContent = '';
+  const texto = document.createElement('span');
+  texto.textContent = mensagem;
+  caixa.appendChild(texto);
+  if (comTentarNovamente) {
+    const botao = document.createElement('button');
+    botao.type = 'button';
+    botao.textContent = 'Tentar novamente';
+    botao.addEventListener('click', carregarDoPainel);
+    caixa.appendChild(botao);
+  }
+  caixa.hidden = false;
+}
+
+function esconderStatus() {
+  const caixa = document.getElementById('status-mapa');
+  if (caixa) caixa.hidden = true;
+}
+
+async function carregarDoPainel() {
+  mostrarStatus('Carregando espécies do Painel Científico… O primeiro acesso pode levar até um minuto.', false);
+  try {
+    const especies = await listarEspeciesPublico();
+    clusterGroup.clearLayers();
+    adicionarMarcadores(adaptarParaMapa(especies));
+    esconderStatus();
+  } catch (erro) {
+    mostrarStatus('Não foi possível carregar o mapa agora.', true);
+  }
+}
+
+carregarDoPainel();
 
 // ==========================
 // Alternância entre mapa e imagem
@@ -146,7 +206,7 @@ function criarOverlayImagem() {
 
   document.body.appendChild(overlay);
 
-  // pegar 3 exemplos reais do data
+  // pegar 3 exemplos reais do Painel
   const exemplos = animaisComCoords.slice(0, 3);
   const posicoes = [
     { top: 20, left: 30 },
