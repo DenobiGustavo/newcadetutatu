@@ -95,11 +95,28 @@ function criarPopup(item) {
 // ==========================
 // Adiciona marcadores do mapa (dados vem do Painel Cientifico)
 // ==========================
-// So aparece o que tem ponto de observacao real: plantas do Painel nao
-// tem coordenada e por isso nao entram no mapa.
+// Animais entram nas coordenadas do Painel. Plantas nao tem coordenada no
+// Painel: ficam espalhadas perto dos animais, numa posicao sorteada a partir
+// do id da planta (assim ela nao muda de lugar a cada vez que o mapa abre).
 let animaisComCoords = [];
 const jitter = 0.00003;
 const posicoesUsadas = {};
+
+// Gerador pseudoaleatorio com semente (mulberry32), alimentado por um hash do texto.
+function aleatorioComSemente(texto) {
+  let h = 2166136261;
+  for (let i = 0; i < texto.length; i++) {
+    h ^= texto.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  let a = h >>> 0;
+  return function () {
+    a = (a + 0x6D2B79F5) >>> 0;
+    let x = Math.imul(a ^ (a >>> 15), 1 | a);
+    x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 function adicionarMarcadores(itens) {
   animaisComCoords = itens.filter(a => a.coordinates && a.coordinates.length > 0);
@@ -121,6 +138,21 @@ function adicionarMarcadores(itens) {
 
       clusterGroup.addLayer(marker);
     });
+  });
+
+  // Plantas: sem coordenada no Painel, ficam perto de um animal (sorteio fixo por planta)
+  if (animaisComCoords.length === 0) return;
+  itens.filter(item => !item.coordinates).forEach(planta => {
+    const sorteio = aleatorioComSemente(planta.id);
+    const refAnimal = animaisComCoords[Math.floor(sorteio() * animaisComCoords.length)];
+    const refCoord = refAnimal.coordinates[0];
+    const lat = refCoord.lat + (sorteio() - 0.5) * jitter * 5;
+    const lng = refCoord.lng + (sorteio() - 0.5) * jitter * 5;
+
+    const marker = L.marker([lat, lng], { icon: criarIcone(planta.specie.division) })
+      .bindPopup(criarPopup(planta));
+
+    clusterGroup.addLayer(marker);
   });
 }
 
