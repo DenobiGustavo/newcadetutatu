@@ -746,6 +746,37 @@
         }
 
         carregarImagem();
+
+        // ---- Dados da especie (vindos do Painel Cientifico pelo link do popup) ----
+        const ehPlanta = getQueryParam("division") === "Plantae";
+        const DIVISOES = { "Plantae": "Planta", "1": "Vertebrado", "2": "Invertebrado" };
+
+        function preencherCard(id, valor) {
+            document.getElementById(id).textContent = valor || "Não consta informação.";
+        }
+
+        function esconderCard(id) {
+            document.getElementById(id).closest(".detail-card").style.display = "none";
+        }
+
+        preencherCard("scientific-name", getQueryParam("scientific_name"));
+        preencherCard("family", getQueryParam("family"));
+        preencherCard("curiosities", getQueryParam("curiosities"));
+        preencherCard("geographic-distribution", getQueryParam("geographic_distribution"));
+        preencherCard("division", DIVISOES[getQueryParam("division")]);
+
+        // O Painel nao tem "nomes conhecidos".
+        esconderCard("known-names");
+
+        // Alimentacao, ordem, habitos e habitat so existem para animais.
+        if (ehPlanta) {
+            ["food", "order", "habits", "habitat"].forEach(esconderCard);
+        } else {
+            preencherCard("food", getQueryParam("food"));
+            preencherCard("order", getQueryParam("order"));
+            preencherCard("habits", getQueryParam("habits"));
+            preencherCard("habitat", getQueryParam("habitat"));
+        }
     </script>
 
 </body>
