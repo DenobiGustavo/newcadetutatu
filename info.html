@@ -713,6 +713,18 @@
             const fonteElement = document.getElementById("img-fonte");
             const licencaElement = document.getElementById("img-licenca");
 
+            // Foto e credito vindos do Painel Cientifico (pelo link do popup do mapa);
+            // a tabela `images` acima so serve de reserva para links antigos.
+            const imagemPainel = getQueryParam("image_url");
+            const creditoPainel = getQueryParam("image_credit");
+
+            if (imagemPainel) {
+                imgElement.src = imagemPainel;
+                document.querySelector(".creditos-imagem").textContent =
+                    creditoPainel ? "Foto: " + creditoPainel : "Crédito da foto não informado";
+                return;
+            }
+
             const data = images[animalName];
 
             if (!data) {
