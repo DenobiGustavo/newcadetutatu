@@ -751,12 +751,10 @@
         const ehPlanta = getQueryParam("division") === "Plantae";
         const DIVISOES = { "Plantae": "Planta", "1": "Vertebrado", "2": "Invertebrado" };
 
-        function preencherCard(id, valor) {
-            document.getElementById(id).textContent = valor || "Não consta informação.";
-        }
-
-        function esconderCard(id) {
-            document.getElementById(id).closest(".detail-card").style.display = "none";
+        // Todos os cards aparecem sempre: se nao ha dado no Painel, mostra um aviso
+        // ("Nao consta informacao." ou "Nao se aplica" para o que nao existe na categoria).
+        function preencherCard(id, valor, vazio = "Não consta informação.") {
+            document.getElementById(id).textContent = valor || vazio;
         }
 
         preencherCard("scientific-name", getQueryParam("scientific_name"));
@@ -766,17 +764,14 @@
         preencherCard("division", DIVISOES[getQueryParam("division")]);
 
         // O Painel nao tem "nomes conhecidos".
-        esconderCard("known-names");
+        preencherCard("known-names", "");
 
         // Alimentacao, ordem, habitos e habitat so existem para animais.
-        if (ehPlanta) {
-            ["food", "order", "habits", "habitat"].forEach(esconderCard);
-        } else {
-            preencherCard("food", getQueryParam("food"));
-            preencherCard("order", getQueryParam("order"));
-            preencherCard("habits", getQueryParam("habits"));
-            preencherCard("habitat", getQueryParam("habitat"));
-        }
+        const vazioCampoDeAnimal = ehPlanta ? "Não se aplica" : "Não consta informação.";
+        preencherCard("food", getQueryParam("food"), vazioCampoDeAnimal);
+        preencherCard("order", getQueryParam("order"), vazioCampoDeAnimal);
+        preencherCard("habits", getQueryParam("habits"), vazioCampoDeAnimal);
+        preencherCard("habitat", getQueryParam("habitat"), vazioCampoDeAnimal);
     </script>
 
 </body>
