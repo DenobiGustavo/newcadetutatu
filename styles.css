@@ -62,7 +62,7 @@ body {
 /* ==== BOTÃO NO POPUP ==== */
 .leaflet-popup-content a {
   display: inline-block;
-  background-color: #10b981; /* verde */
+  background-color: #087f45; /* verde (contraste 5,08:1 com branco) */
   color: white;
   padding: 8px 16px;
   border-radius: 6px;
@@ -73,7 +73,7 @@ body {
 }
 
 .leaflet-popup-content a:hover {
-  background-color: #059669;
+  background-color: #065f36;
 }
 
 /* Melhorando o estilo do ícone de texto */
@@ -96,7 +96,7 @@ body {
 /* Remove estilo padrão do botão e aplica novo estilo */
 .map-buttons button {
   all: unset;
-  background-color: #0CBB68;
+  background-color: #087f45;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -111,14 +111,14 @@ body {
 
 /* Hover */
 .map-buttons button:hover {
-  background-color: #059f58;
+  background-color: #065f36;
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 /* Active (pressionado) */
 .map-buttons button:active {
-  background-color: #04844b;
+  background-color: #054a2a;
   transform: translateY(1px);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
@@ -172,9 +172,145 @@ body,
 #status-mapa button {
   margin-left: 10px;
   padding: 6px 12px;
-  background: #0CBB68;
+  background: #087f45;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+/* ==================== ACESSIBILIDADE (WCAG 2.1) ==================== */
+
+/* Texto so para leitor de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Link "pular para o mapa": so aparece ao receber foco do teclado */
+.pular-para-mapa {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 2000;
+  padding: 10px 16px;
+  background: #1d4ed8;
+  color: #fff;
+  border-radius: 6px;
+  font-family: 'Arial', sans-serif;
+  transform: translateY(-200%);
+}
+
+.pular-para-mapa:focus {
+  transform: translateY(0);
+}
+
+/* Foco visivel em tudo que e interativo (2.4.7): amarelo com borda escura */
+a:focus-visible,
+button:focus-visible,
+.leaflet-marker-icon:focus-visible,
+.leaflet-container:focus-visible,
+#background-overlay img:focus-visible {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #000;
+}
+
+/* Instrucoes visuais de uso do mapa */
+#instrucoes-mapa {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1500;
+  width: min(320px, calc(100vw - 32px));
+  padding: 20px;
+  border-radius: 14px;
+  background: #fff;
+  color: #111;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+}
+
+#instrucoes-mapa[hidden],
+.instrucao-passo[hidden] {
+  display: none;
+}
+
+.instrucao-passo img {
+  width: 56px;
+  height: 56px;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.instrucao-passo p {
+  margin: 0 0 14px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.instrucao-passo button {
+  padding: 10px 22px;
+  background: #087f45;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.anim-zoom { animation: instrucao-zoom 1.2s ease-in-out infinite; }
+.anim-clique { animation: instrucao-clique 1.2s ease-in-out infinite; }
+
+@keyframes instrucao-zoom {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+
+@keyframes instrucao-clique {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.8); }
+}
+
+/* Botao de ajuda (reabre as instrucoes) */
+#ajuda-mapa {
+  position: fixed;
+  right: 16px;
+  bottom: 24px;
+  z-index: 1400;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: #1d4ed8;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Quem pede menos movimento nao ve a animacao (2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  .anim-zoom,
+  .anim-clique {
+    animation: none;
+  }
+
+  .map-buttons button,
+  .map-buttons button:hover,
+  .map-buttons button:active {
+    transition: none;
+    transform: none;
+  }
 }

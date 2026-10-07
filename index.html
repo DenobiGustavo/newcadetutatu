@@ -8,12 +8,36 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="map-buttons">
-    <button onclick="usarMapaNormal()">Geolocalizado</button>
-    <button onclick="usarImagemFundo()">Ilustrativo</button>
+  <a class="pular-para-mapa" href="#map">Pular para o mapa</a>
+
+  <div class="map-buttons" role="group" aria-label="Tipo de visualização do mapa">
+    <button type="button" onclick="usarMapaNormal()" aria-pressed="true">Geolocalizado</button>
+    <button type="button" onclick="usarImagemFundo()" aria-pressed="false">Ilustrativo</button>
   </div>
-  <div id="map"></div>
+
+  <main>
+    <div id="map" role="region" aria-label="Mapa interativo das espécies. Use Tab para percorrer os pontos e Enter para abrir os detalhes."></div>
+  </main>
+
   <div id="status-mapa" role="status" hidden></div>
+
+  <!-- Leitor de tela: anuncia o nome da especie ao passar o mouse ou focar no ponto -->
+  <div id="anuncio-mapa" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Instrucoes visuais de uso do mapa (aparecem na primeira visita) -->
+  <section id="instrucoes-mapa" role="region" aria-label="Como usar o mapa" hidden>
+    <div class="instrucao-passo" id="instrucao-zoom">
+      <img src="images/instrucao-zoom.png" alt="" class="anim-zoom">
+      <p>Use o gesto de pinça para ampliar o mapa.<br>No computador, use a roda do mouse.</p>
+      <button type="button" id="instrucao-proximo">Próximo</button>
+    </div>
+    <div class="instrucao-passo" id="instrucao-clique" hidden>
+      <img src="images/instrucao-clique.png" alt="" class="anim-clique">
+      <p>Clique em um ícone para mais informações.<br>Com o teclado, use Tab e Enter.</p>
+      <button type="button" id="instrucao-entendi">Entendi</button>
+    </div>
+  </section>
+  <button type="button" id="ajuda-mapa" aria-label="Ver instruções de uso do mapa">?</button>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
@@ -22,6 +46,19 @@
 <!-- JS do markercluster -->
 <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
   <script src="painel.js"></script>
+  <script src="acessibilidade.js"></script>
   <script src="mapa.js"></script>
+
+  <!-- VLibras: traduz o conteudo da pagina para Libras (widget oficial do governo) -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    if (window.VLibras) { new window.VLibras.Widget('https://vlibras.gov.br/app'); }
+  </script>
 </body>
 </html>

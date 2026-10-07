@@ -40,7 +40,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="container" role="main">
         <div class="modal">
 
             <div class="modal-header">
@@ -708,6 +708,8 @@
         function carregarImagem() {
 
             const imgElement = document.getElementById("animal-image");
+            // Texto alternativo da foto para leitores de tela (WCAG 1.1.1)
+            imgElement.alt = "Foto de " + animalName;
 
             const autorElement = document.getElementById("img-autor");
             const fonteElement = document.getElementById("img-fonte");
@@ -772,6 +774,31 @@
         preencherCard("order", getQueryParam("order"), vazioCampoDeAnimal);
         preencherCard("habits", getQueryParam("habits"), vazioCampoDeAnimal);
         preencherCard("habitat", getQueryParam("habitat"), vazioCampoDeAnimal);
+
+        // Cards com texto longo rolam; sem isso o teclado nao consegue ler o resto (WCAG 2.1.1).
+        function tornarCardsRolaveisFocaveis() {
+            document.querySelectorAll(".detail-card").forEach(function (card) {
+                if (card.scrollHeight > card.clientHeight) {
+                    card.tabIndex = 0;
+                    card.setAttribute("role", "group");
+                    card.setAttribute("aria-label", card.querySelector("h5").textContent);
+                }
+            });
+        }
+        tornarCardsRolaveisFocaveis();
+        window.addEventListener("resize", tornarCardsRolaveisFocaveis);
+    </script>
+
+    <!-- VLibras: traduz o conteudo da pagina para Libras (widget oficial do governo) -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        if (window.VLibras) { new window.VLibras.Widget('https://vlibras.gov.br/app'); }
     </script>
 
 </body>
