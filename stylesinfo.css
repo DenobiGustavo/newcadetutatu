@@ -44,7 +44,7 @@ body {
 
 /* ===== Cabeçalho ===== */
 .modal-header {
-  background: #0CBB68;
+  background: #087f45;
   color: white;
   padding: 18px;
   text-align: center;
@@ -70,7 +70,7 @@ body {
   max-width: 340px;
   height: 220px;
   border-radius: 12px;
-  border: 4px solid #0CBB68; /* borda verde */
+  border: 4px solid #0CBB68; /* borda verde (decorativa) */
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
   margin-bottom: 20px;
   object-fit: cover;
@@ -92,7 +92,7 @@ body {
 
 /* ===== Cards individuais ===== */
 .detail-card {
-  background: #0CBB68;
+  background: #087f45;
   color: white;
   border-radius: 12px;
   padding: 12px;
@@ -146,7 +146,7 @@ body {
 }
 
 .modal-footer button {
-  background: #0CBB68;
+  background: #087f45;
   color: white;
   border: none;
   border-radius: 8px;
@@ -158,7 +158,7 @@ body {
 }
 
 .modal-footer button:hover {
-  background: #0aa45b;
+  background: #065f36;
   transform: scale(1.03);
 }
 
@@ -219,7 +219,7 @@ body {
   }
 
   .modal-header {
-    background: #0CBB68;
+    background: #087f45;
     color: white;
     text-align: center;
     padding: 12px;
@@ -244,7 +244,7 @@ body {
     width: 90%;
     height: auto;
     margin: 10px 0 20px 0;
-    border: 3px solid #0CBB68; /* borda verde também no mobile */
+    border: 3px solid #0CBB68; /* borda verde também no mobile (decorativa) */
   }
 
   /* Layout em lista simples */
@@ -304,4 +304,19 @@ body {
 /* garante altura mínima para que a mensagem não "cole" */
 .detail-card p {
   min-height: 48px;
+}
+
+/* ===== Acessibilidade ===== */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

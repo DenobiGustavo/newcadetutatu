@@ -14,7 +14,18 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Cluster de marcadores
 const clusterGroup = L.markerClusterGroup({
-  maxClusterRadius: 40
+  maxClusterRadius: 40,
+  // O numero e visual; o leitor de tela le "Grupo de N especies" (WCAG 1.1.1 / 4.1.2)
+  iconCreateFunction: function (cluster) {
+    const n = cluster.getChildCount();
+    const tamanho = n < 10 ? 'small' : (n < 100 ? 'medium' : 'large');
+    return L.divIcon({
+      html: '<div><span aria-hidden="true">' + n + '</span><span class="sr-only">Grupo de ' + n +
+        ' espécies. Pressione Enter para aproximar.</span></div>',
+      className: 'marker-cluster marker-cluster-' + tamanho,
+      iconSize: new L.Point(40, 40)
+    });
+  }
 });
 
 // Função para criar ícones
@@ -82,7 +93,7 @@ function criarPopup(item) {
           display:inline-block;
           margin-top:5px;
           padding:8px 12px;
-          background-color:#0CBB68;
+          background-color:#087f45;
           color:white;
           text-decoration:none;
           border-radius:5px;
@@ -103,6 +114,25 @@ function criarPopup(item) {
 let animaisComCoords = [];
 const jitter = 0.00003;
 const posicoesUsadas = {};
+
+// Marcador acessivel: tem nome para leitor de tela (alt/title), recebe foco pelo
+// teclado, abre o popup com Enter e anuncia o nome ao passar o mouse ou focar.
+function criarMarcador(item, lat, lng) {
+  const nome = item.specie.name;
+  const descricao = nome + ', ' + categoriaDaEspecie(item.specie.division);
+
+  const marker = L.marker([lat, lng], {
+    icon: criarIcone(item.specie.division),
+    title: nome,
+    alt: descricao,
+    keyboard: true
+  }).bindPopup(criarPopup(item));
+
+  marker.on('add', function () {
+    anunciarAoInteragir(marker.getElement(), descricao);
+  });
+  return marker;
+}
 
 // Gerador pseudoaleatorio com semente (mulberry32), alimentado por um hash do texto.
 function aleatorioComSemente(texto) {
@@ -135,10 +165,7 @@ function adicionarMarcadores(itens) {
       }
       posicoesUsadas[key] = true;
 
-      const marker = L.marker([lat, lng], { icon: criarIcone(animal.specie.division) })
-        .bindPopup(criarPopup(animal));
-
-      clusterGroup.addLayer(marker);
+      clusterGroup.addLayer(criarMarcador(animal, lat, lng));
     });
   });
 
@@ -151,10 +178,7 @@ function adicionarMarcadores(itens) {
     const lat = refCoord.lat + (sorteio() - 0.5) * jitter * 5;
     const lng = refCoord.lng + (sorteio() - 0.5) * jitter * 5;
 
-    const marker = L.marker([lat, lng], { icon: criarIcone(planta.specie.division) })
-      .bindPopup(criarPopup(planta));
-
-    clusterGroup.addLayer(marker);
+    clusterGroup.addLayer(criarMarcador(planta, lat, lng));
   });
 }
 
@@ -279,6 +303,16 @@ function adicionarMarcadorImagem(topPercent, leftPercent, item, tipo) {
     pointer-events: auto;
   `;
   img.title = item.specie.name;
+  img.alt = item.specie.name + ', ' + categoriaDaEspecie(item.specie.division);
+  img.tabIndex = 0;
+  img.setAttribute('role', 'button');
+  anunciarAoInteragir(img, img.alt);
+  img.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      img.click();
+    }
+  });
 
   img.addEventListener('click', () => {
     const popup = L.popup()
@@ -316,6 +350,11 @@ function atualizarEstadoBotoes() {
     botao.style.transform = '';
     botao.style.boxShadow = '';
   });
+
+  const btnMapa = document.querySelector('button[onclick="usarMapaNormal()"]');
+  const btnImagem = document.querySelector('button[onclick="usarImagemFundo()"]');
+  if (btnMapa) btnMapa.setAttribute('aria-pressed', String(estadoAtual === 'mapa'));
+  if (btnImagem) btnImagem.setAttribute('aria-pressed', String(estadoAtual === 'imagem'));
 
   if (estadoAtual === 'mapa') {
     const botaoMapa = document.querySelector('button[onclick="usarMapaNormal()"]');
