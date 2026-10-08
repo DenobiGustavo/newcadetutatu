@@ -185,11 +185,6 @@ function adicionarMarcadores(itens) {
 // Adiciona cluster ao mapa
 map.addLayer(clusterGroup);
 
-// Grupos de pontos tambem anunciam (e falam) a quantidade ao passar o mouse
-clusterGroup.on('clustermouseover', function (e) {
-  anunciar('Grupo de ' + e.layer.getChildCount() + ' espécies');
-});
-
 // ==========================
 // Carregamento a partir do Painel (com aviso de carregando / erro)
 // ==========================
