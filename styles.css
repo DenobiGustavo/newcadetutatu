@@ -315,3 +315,8 @@ button:focus-visible,
     transform: none;
   }
 }
+
+/* Botao de narracao por voz: cinza escuro quando desligada (branco sobre #4b5563 = 7,6:1) */
+.map-buttons #btn-narracao[aria-pressed="false"] {
+  background-color: #4b5563;
+}
