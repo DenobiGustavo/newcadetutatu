@@ -5,55 +5,6 @@
 // O VLibras (traducao para Libras) e carregado direto no HTML.
 // ==========================
 
-// ---- Narracao por voz (som) ----
-// O VLibras so sinaliza em Libras, nao fala. O "som" do recurso e este: o navegador le o
-// nome da especie em voz alta (Web Speech API) ao passar o mouse ou focar no ponto.
-// Fica ligada por padrao e pode ser desligada no botao Narracao (a escolha e lembrada).
-// Obs.: o Chrome so libera a voz depois que a pessoa interage com a pagina (um clique).
-const CHAVE_NARRACAO = 'cadetutatu_narracao';
-const temVoz = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
-
-function narracaoLigada() {
-  try { return localStorage.getItem(CHAVE_NARRACAO) !== '0'; } catch (e) { return true; }
-}
-
-let narracaoAtiva = narracaoLigada();
-
-function falar(texto) {
-  if (!narracaoAtiva || !temVoz || !texto) return;
-  // Cancela a fala anterior: passar o mouse por varios pontos nao forma fila
-  window.speechSynthesis.cancel();
-  const fala = new SpeechSynthesisUtterance(texto);
-  fala.lang = 'pt-BR';
-  const voz = window.speechSynthesis.getVoices().find((v) => v.lang && v.lang.toLowerCase().startsWith('pt'));
-  if (voz) fala.voice = voz;
-  window.speechSynthesis.speak(fala);
-}
-
-function iniciarNarracao() {
-  const botao = document.getElementById('btn-narracao');
-  if (!botao) return;
-  if (!temVoz) {
-    // Navegador sem voz: o botao nao faz sentido
-    botao.hidden = true;
-    return;
-  }
-  function atualizar() {
-    botao.setAttribute('aria-pressed', String(narracaoAtiva));
-    botao.textContent = narracaoAtiva ? 'Narração: ligada' : 'Narração: desligada';
-  }
-  atualizar();
-  botao.addEventListener('click', () => {
-    narracaoAtiva = !narracaoAtiva;
-    try { localStorage.setItem(CHAVE_NARRACAO, narracaoAtiva ? '1' : '0'); } catch (e) { /* sem armazenamento */ }
-    atualizar();
-    if (narracaoAtiva) falar('Narração ligada');
-    else window.speechSynthesis.cancel();
-  });
-  // Algumas vozes so ficam disponiveis depois de carregarem
-  if (window.speechSynthesis.onvoiceschanged !== undefined) window.speechSynthesis.onvoiceschanged = () => {};
-}
-
 // ---- Anuncio para leitores de tela ----
 let ultimoAnuncio = '';
 let ultimoAnuncioEm = 0;
@@ -71,9 +22,6 @@ function anunciar(texto) {
   // Limpa e reescreve, para o leitor de tela falar de novo mesmo se o texto for igual ao anterior
   regiao.textContent = '';
   setTimeout(() => { regiao.textContent = texto; }, 60);
-
-  // Tambem fala em voz alta, para quem nao usa leitor de tela
-  falar(texto);
 }
 
 function categoriaDaEspecie(division) {
@@ -141,4 +89,3 @@ function iniciarInstrucoes() {
 }
 
 document.addEventListener('DOMContentLoaded', iniciarInstrucoes);
-document.addEventListener('DOMContentLoaded', iniciarNarracao);
