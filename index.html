@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mapa dos Animais e Plantas</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous" />
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="pular-para-mapa" href="#map">Pular para o mapa</a>
 
   <div class="map-buttons" role="group" aria-label="Tipo de visualização do mapa">
-    <button type="button" onclick="usarMapaNormal()" aria-pressed="true">Geolocalizado</button>
-    <button type="button" onclick="usarImagemFundo()" aria-pressed="false">Ilustrativo</button>
+    <button type="button" id="btn-mapa" aria-pressed="true">Geolocalizado</button>
+    <button type="button" id="btn-imagem" aria-pressed="false">Ilustrativo</button>
   </div>
 
   <main>
@@ -39,12 +39,12 @@
   </section>
   <button type="button" id="ajuda-mapa" aria-label="Ver instruções de uso do mapa">?</button>
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
- <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" integrity="sha384-pmjIAcz2bAn0xukfxADbZIb3t8oRT9Sv0rvO+BR5Csr6Dhqq+nZs59P0pPKQJkEV" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" integrity="sha384-wgw+aLYNQ7dlhK47ZPK7FRACiq7ROZwgFNg0m04avm4CaXS+Z9Y7nMu8yNjBKYC+" crossorigin="anonymous" />
 
 <!-- JS do markercluster -->
-<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" integrity="sha384-eXVCORTRlv4FUUgS/xmOyr66XBVraen8ATNLMESp92FKXLAMiKkerixTiBvXriZr" crossorigin="anonymous"></script>
   <script src="painel.js"></script>
   <script src="acessibilidade.js"></script>
   <script src="mapa.js"></script>
@@ -57,8 +57,6 @@
     </div>
   </div>
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script>
-    if (window.VLibras) { new window.VLibras.Widget('https://vlibras.gov.br/app'); }
-  </script>
+  <script src="vlibras-init.js"></script>
 </body>
 </html>

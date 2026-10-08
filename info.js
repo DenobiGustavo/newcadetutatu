@@ -1,0 +1,666 @@
+// Logica da pagina de detalhes (movida do HTML para um arquivo para a CSP bloquear script inline)
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param) || "";
+        }
+
+        const animalName = decodeURIComponent(getQueryParam("name"));
+
+        document.getElementById("animal-name").textContent = animalName;
+
+
+
+        const images = {
+
+            "Perereca-de-ampulheta": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/4/40/Perereca_ampulheta_%28Dendropsophus_minutus%29_-_foto_por_Jos%C3%A9_Henrique_Pezzonia_02.jpg",
+                "autor": "José Henrique Pezzonia",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Pica-pau-de-cabeça-amarela": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Celeus_flavescens_-Horto_Florestal%2C_Sao_Paulo%2C_Brazil_-male-8.jpg/960px-Celeus_flavescens_-Horto_Florestal%2C_Sao_Paulo%2C_Brazil_-male-8.jpg?_=20110609170856",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Noivinha-branca": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/White_Monjita_%28Xolmis_irupero%29-8.jpg?_=20081031122745",
+                "autor": "Lip Kee Yap",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Fim-fim": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Euphonia_chlorotica_-Piraju%2C_Sao_paulo%2C_Brasil_-male-8.jpg/640px-Euphonia_chlorotica_-Piraju%2C_Sao_paulo%2C_Brasil_-male-8.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Beija-flor-dourado": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/035_Gilded_sapphire_in_flight_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg/960px-035_Gilded_sapphire_in_flight_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg?_=20250713223758",
+                "autor": "Giles Laurent",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Perereca-do-brejo": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Hourglass_treefrog_%28Dendropsophus_ebraccatus%29.jpg/640px-Hourglass_treefrog_%28Dendropsophus_ebraccatus%29.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Saíra-de-chapéu-preto": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Nemosia_pileata_Hooded_Tanager_%28male%29%2C_S%C3%A3o_Domingos%2C_Goi%C3%A1s%2C_Brazil.jpg",
+                "autor": "Hector Bottai",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Pintassilgo": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Cabecita_negra_%28Spinus_magellanicus%29%2C_macho%2C_Uruguay%2C_2020.jpg/500px-Cabecita_negra_%28Spinus_magellanicus%29%2C_macho%2C_Uruguay%2C_2020.jpg?_=20230531153552",
+                "autor": "Enrique González ",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Pica-pau-verde-barrado": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Colaptes_melanochloros_-Bataguassu%2C_Mato_Grosso_do_Sul%2C_Brazil-8.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Bentevizinho-de-penacho-vermelho": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Myiozetetes-similis-001.jpg",
+                "autor": "Mdf",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Risadinha": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Southern_Beardless_Tyrannulet.jpg",
+                "autor": "Lip Kee Yap",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Tico-tico-rei": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Coryphospingus_cucullatus_-Piraju%2C_Sao_Paulo%2C_Brazil-8.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Alma-de-gato": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Flickr_-_Dario_Sanches_-_ALMA-DE-GATO_%28Piaya_cayana%29.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Urutau": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Urutau_na_cidade_03.jpg",
+                "autor": "Gastaldon",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Formiga-tartaruga": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/ParqueNacionaldaChapadadosVeadeiros_PedroBritoCandidoFerreira_%2804%29.jpg",
+                "autor": "Pedrobcf",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Quati": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Coat%C3%AD_de_nariz_blanca_%28Nasua_narica%29.jpg/640px-Coat%C3%AD_de_nariz_blanca_%28Nasua_narica%29.jpg",
+                "autor": "LarissaGomez",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Perereca-cabrinha": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Hypsiboas_albopunctatus01a.jpg",
+                "autor": "Lucas Grandinetti",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Lavadeira-mascarada": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Lavadeira_mascarada.jpg",
+                "autor": "Daniel Cardoso",
+                "fonte": "Wikimedia Commons",
+                "licenca": "Domínio Público"
+            },
+            "Quiriquiri": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/American_Kestrel_%28Falco_sparverius%29_%2814547482002%29.jpg/960px-American_Kestrel_%28Falco_sparverius%29_%2814547482002%29.jpg?_=20150529230653",
+                "autor": "Gregory Smith",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Curicaca": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Buff-necked_ibis_%28Theristicus_caudatus%29.JPG/640px-Buff-necked_ibis_%28Theristicus_caudatus%29.JPG",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Guaracavuçu": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/b/be/Cnemotriccus_fuscatus_-_Fuscous_Flycatcher%3B_Bodoquena%2C_Mato_Grosso_do_Sul%2C_Brazil.jpg",
+                "autor": "Hector Bottai",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Coleirinho": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/GARGANTILLO_Sporophila_caerulescens_Dario_Niz.jpg/640px-GARGANTILLO_Sporophila_caerulescens_Dario_Niz.jpg",
+                "autor": "Dario Niz",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Andorinha-pequena-de-casa": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Pygochelidon_cyanoleuca_%28Golondrina_azul_y_blanca%29_%2814025350735%29.jpg/640px-Pygochelidon_cyanoleuca_%28Golondrina_azul_y_blanca%29_%2814025350735%29.jpg",
+                "autor": "Alejandro Bayer Tamayo",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Anu-preto": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Smooth-billed_ani_%28Crotophaga_ani%29_GC.JPG/640px-Smooth-billed_ani_%28Crotophaga_ani%29_GC.JPG",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Falcão-de-coleira": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Falco_femoralis.jpg/640px-Falco_femoralis.jpg",
+                "autor": "Nicolas Ramirez",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Maria-faceira": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Maria_faceira.jpg",
+                "autor": "Jairmoreirafotografia",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Polícia-inglesa-do-sul": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Sturnella_superciliaris_-Vale_do_Ribeira%2C_Registro%2C_Sao_Paulo%2C_Brazil_-8.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Pica-pau-do-campo": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Campo_flicker_%28Colaptes_campestris%29_female.JPG/640px-Campo_flicker_%28Colaptes_campestris%29_female.JPG",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Pardal": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/House_sparrow_male_in_Prospect_Park_%2853532%29.jpg/640px-House_sparrow_male_in_Prospect_Park_%2853532%29.jpg",
+                "autor": "Rhododendrites",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Beija-flor-de-peito-azul": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/BEIJA-FLOR-DE-PEITO-AZUL_%28Amazilia_lactea%29.jpg/640px-BEIJA-FLOR-DE-PEITO-AZUL_%28Amazilia_lactea%29.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Vaquinha": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Diabrotica_adelpha_%281834285%29.jpg/640px-Diabrotica_adelpha_%281834285%29.jpg",
+                "autor": "Juan Cruzado Cortés",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Gavião-de-cauda-curta": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Male_-_black_phase_-_short_tail_hawk.JPG",
+                "autor": "Amendezg",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Perereca-de-folhagem": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Pithecopus_ayeaye%2C_Minas_Gerais%2C_BR_imported_from_iNaturalist_photo_461168119.jpg/1280px-Pithecopus_ayeaye%2C_Minas_Gerais%2C_BR_imported_from_iNaturalist_photo_461168119.jpg",
+                "autor": "Reuber Brandão",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Teiú": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/043_Argentine_black_and_white_tegu_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg/960px-043_Argentine_black_and_white_tegu_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg?_=20250714205539",
+                "autor": "Giles Laurent",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Urubu-preto": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Coragyps_atratus_brasiliensis_Black_vulture_Bel%C3%A9m_01.jpg/640px-Coragyps_atratus_brasiliensis_Black_vulture_Bel%C3%A9m_01.jpg",
+                "autor": "Cayambe",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Coruja-Buraqueira": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Athene_cunicularia_1_edited.JPG",
+                "autor": "Wagner Machado Carlos Lemes",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Mariposa leopardo": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Giant_leopard_moth.JPG/640px-Giant_leopard_moth.JPG",
+                "autor": "AmaryllisGardener",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Piolho-de-cobra": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Millipede_0426.jpg/640px-Millipede_0426.jpg",
+                "autor": "Vengolis",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Tiziu": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/4/41/Tiziu.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Tesourinha": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Fork-tailed_flycatcher_%28Tyrannus_savana_monachus%29_female.jpg/640px-Fork-tailed_flycatcher_%28Tyrannus_savana_monachus%29_female.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Periquito-de-encontro-amarelo": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/133_Yellow-chevroned_parakeet_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg/640px-133_Yellow-chevroned_parakeet_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg",
+                "autor": "Giles Laurent",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Irerê": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/3/39/Dendrocygna_viduata_upright.jpg",
+                "autor": "Richard Bartz",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Martim-pescador-verde": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/5/56/Chloroceryle_amazona_-_male.jpg",
+                "autor": "Lip Kee Yap",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Sabiá-do-campo": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Mimus_saturninus_-Piraju%2C_Brasil-8.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Urubu-de-cabeça-vermelha": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Cathartes_aura_%2801736%29.jpg/640px-Cathartes_aura_%2801736%29.jpg",
+                "autor": "Rhododendrites",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Arapaçu-de-cerrado": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/1/13/Lepidocolaptes_angustirostris-Narrow-billed_Woodcreeper.JPG",
+                "autor": "Hector Bottai",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Avoante": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Eared_dove_%28Zenaida_auriculata_antioquiae%29_Caldas.jpg/640px-Eared_dove_%28Zenaida_auriculata_antioquiae%29_Caldas.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Bico-de-lacre": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/3/36/Common_waxbill_%28Estrilda_astrild_jagoensis%29.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Carcará": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Schopfkarakara.jpg/1280px-Schopfkarakara.jpg",
+                "autor": "Andreas Trepte",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Chupim-do-brejo": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Pseudoleistes_guirahuro.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Mariquita": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Bananaquit_%28Coereba_flaveola_luteola%29.jpg/640px-Bananaquit_%28Coereba_flaveola_luteola%29.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Tico-tico": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Rufous-collared_sparrow_%28Zonotrichia_capensis_costaricensis%29_2.jpg/1280px-Rufous-collared_sparrow_%28Zonotrichia_capensis_costaricensis%29_2.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Tico-tico-do-campo": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/TICO-TICO-DO-CAMPO_%28Ammodramus_humeralis%29_-_2.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Ferreirinho-relógio": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Common_tody-flycatcher_%28Todirostrum_cinereum%29.JPG/500px-Common_tody-flycatcher_%28Todirostrum_cinereum%29.JPG",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Papagaio-verdadeiro": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Turquoise-fronted_amazon_%28Amazona_aestiva%29_head.JPG/640px-Turquoise-fronted_amazon_%28Amazona_aestiva%29_head.JPG",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Periquitão": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Psittacara_leucophthalmus_-_Davidson_Moreira_-_371656842.jpeg/640px-Psittacara_leucophthalmus_-_Davidson_Moreira_-_371656842.jpeg",
+                "autor": "Davidson Moreira",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Pica-pau-anão-escamado": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Picumnus_albosquamatus_-_White-wedged_Piculet_%28male%29.JPG/640px-Picumnus_albosquamatus_-_White-wedged_Piculet_%28male%29.JPG",
+                "autor": "Hector Bottai",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Pica-pau-branco": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/BIRRO%2C_PICA-PAU-BRANCO_%28_Melanerpes_candidus_%29.jpg/640px-BIRRO%2C_PICA-PAU-BRANCO_%28_Melanerpes_candidus_%29.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Besourinho-de-bico-vermelho": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Chlorostilbon_lucidus.jpg",
+                "autor": "Marcos André",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Peitica": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Empidonomus_varius_%28cropped%29.jpg/640px-Empidonomus_varius_%28cropped%29.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Sabiá-barranco": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Turdus_leucomelas.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Sabiá-poca": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Flickr_-_Dario_Sanches_-_SABI%C3%81-POCA_%28Turdus_amaurochalinus%29_%288%29.jpg/640px-Flickr_-_Dario_Sanches_-_SABI%C3%81-POCA_%28Turdus_amaurochalinus%29_%288%29.jpg",
+                "autor": "D",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Tucão": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Highland_Elaenia_%28Elaenia_obscura%29_%288077622933%29.jpg",
+                "autor": "Ron Knight",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Bem-te-vi-rajado": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/BEM-TE-VI-RAJADO_%28_Myiodynastes_maculatus%29.jpg/640px-BEM-TE-VI-RAJADO_%28_Myiodynastes_maculatus%29.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Neinei": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/NEINEI_%28Megarynchus_pitangua%29.jpg/1280px-NEINEI_%28Megarynchus_pitangua%29.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Príncipe": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Scarlet_Flycatcher%2C_male%2C_Pantanal%2C_Brazil_%2844345246401%29.jpg/1280px-Scarlet_Flycatcher%2C_male%2C_Pantanal%2C_Brazil_%2844345246401%29.jpg",
+                "autor": "Gerry Zambonini",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Suiriri": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Tropical_kingbird_%28Tyrannus_melancholicus_satrapa%29.jpg/640px-Tropical_kingbird_%28Tyrannus_melancholicus_satrapa%29.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Anu-branco": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Guira_guira_national_aviary.jpg/640px-Guira_guira_national_aviary.jpg",
+                "autor": "Tom Murphy VII",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Bem-te-vi": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Great_Kiskadee_or_Bem-te-vi_-_%28Pitangus_sulphuratus%29_%2820732047019%29.jpg/640px-Great_Kiskadee_or_Bem-te-vi_-_%28Pitangus_sulphuratus%29_%2820732047019%29.jpg",
+                "autor": "Under the same moon",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Cambacica": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Bananaquit_%28Coereba_flaveola_luteola%29.jpg/640px-Bananaquit_%28Coereba_flaveola_luteola%29.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Choró-boi": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Taraba_major-Great_Antshrike_%28Male%29.JPG",
+                "autor": "Hector Bottai",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Gavião-carijó": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Roadside_hawk_%28Rupornis_magnirostris_griseocauda%29_eating_speckled_racer_%28Drymobius_margaritiferus%29_Orange_Walk.jpg/640px-Roadside_hawk_%28Rupornis_magnirostris_griseocauda%29_eating_speckled_racer_%28Drymobius_margaritiferus%29_Orange_Walk.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "João-de-barro": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Rufous_hornero_%28Red_ovenbird%29%28Furnarius_rufus%29_and_nest_%282%29.JPG/640px-Rufous_hornero_%28Red_ovenbird%29%28Furnarius_rufus%29_and_nest_%282%29.JPG",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Quero-quero": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Southern_lapwing_%28Vanellus_chilensis_cayennensis%29_Caldas.jpg/640px-Southern_lapwing_%28Vanellus_chilensis_cayennensis%29_Caldas.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Pica-pau-de-banda-branca": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/PICA-PAU-DE-BANDA-BRANCA_%28Dryocopus_lineatus%29.jpg/640px-PICA-PAU-DE-BANDA-BRANCA_%28Dryocopus_lineatus%29.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Pica-pau-pequeno": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/1/16/Veniliornis_passerinus.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Canário-da-terra": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Saffron_finch_%28Sicalis_flaveola%29_male.JPG/1280px-Saffron_finch_%28Sicalis_flaveola%29_male.JPG",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Choca-barrada": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Thamnophilus_doliatus_-Goias%2C_Brazil-8.jpg/1280px-Thamnophilus_doliatus_-Goias%2C_Brazil-8.jpg",
+                "autor": "Wagner Machado Carlos Lemes",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Saí-canário": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Thlypopsis_sordida-2.jpg/640px-Thlypopsis_sordida-2.jpg",
+                "autor": "Dário Sanches",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Sanhaço-cinzento": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Sayaca_tanager.JPG",
+                "autor": "Eurico Zimbres",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Beija-flor-tesoura": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Fork-tailed_woodnymph_%28Thalurania_furcata_viridipectus%29_male_in_flight_Sumaco.jpg/640px-Fork-tailed_woodnymph_%28Thalurania_furcata_viridipectus%29_male_in_flight_Sumaco.jpg",
+                "autor": "Charles J Sharp",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Sibipiruna": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Copasibipirunafrutos.jpg/1280px-Copasibipirunafrutos.jpg",
+                "autor": "Mauroguanandi",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Leiteiro": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Sapium_glandulosum%2C_leiteiro_%2810094019245%29.jpg/640px-Sapium_glandulosum%2C_leiteiro_%2810094019245%29.jpg",
+                "autor": "Tarciso Leão",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Guaritá": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Astronium_graveolens_14zz.jpg",
+                "autor": "David J. Stang",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Graviola": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Soursop_fruit.jpg",
+                "autor": "USGov",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Peroba rosa": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/0/07/PALO_ROSA.jpeg",
+                "autor": "Ronmisiones",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Araucária": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Webysther_20190413132108_-_Arauc%C3%A1ria_%28Araucaria_angustifolia%29.jpg/640px-Webysther_20190413132108_-_Arauc%C3%A1ria_%28Araucaria_angustifolia%29.jpg",
+                "autor": "Webysther Nunes",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Areca-bambu": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Dypsis_lutescens1.jpg/640px-Dypsis_lutescens1.jpg",
+                "autor": "KENPEI",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Palmeira-leque": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Livistona_chinensis_Liwistona_chi%C5%84ska_2024-01-20_Malaga_01.jpg/640px-Livistona_chinensis_Liwistona_chi%C5%84ska_2024-01-20_Malaga_01.jpg",
+                "autor": "Agnieszka Kwiecień, Nova",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Palmeira real": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Palmeira-real_aleia.jpg/640px-Palmeira-real_aleia.jpg",
+                "autor": "Mateusbotanica2020",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Jerivá": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Palmera_pind%C3%B3_%28Syagrus_romanzoffiana%29_00068.jpg/640px-Palmera_pind%C3%B3_%28Syagrus_romanzoffiana%29_00068.jpg",
+                "autor": "Juan Carlos Fonseca Mata",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Dracena": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Dracena_draco_5.jpg/640px-Dracena_draco_5.jpg",
+                "autor": "Mokkie",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Colorau": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Bixa_orellana_%28Roucou%29.jpg",
+                "autor": "Fpalli",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+            },
+            "Paineira": {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Ceiba_speciosa_IMG_1753.jpg/1280px-Ceiba_speciosa_IMG_1753.jpg",
+                "autor": "Mauro Halpern",
+                "fonte": "Wikimedia Commons",
+                "licenca": "CC BY-SA"
+
+            }
+        }
+
+
+        function carregarImagem() {
+
+            const imgElement = document.getElementById("animal-image");
+            // Texto alternativo da foto para leitores de tela (WCAG 1.1.1)
+            imgElement.alt = "Foto de " + animalName;
+
+            const autorElement = document.getElementById("img-autor");
+            const fonteElement = document.getElementById("img-fonte");
+            const licencaElement = document.getElementById("img-licenca");
+
+            // Foto e credito vindos do Painel Cientifico (pelo link do popup do mapa);
+            // a tabela `images` acima so serve de reserva para links antigos.
+            const imagemPainel = getQueryParam("image_url");
+            const creditoPainel = getQueryParam("image_credit");
+
+            if (imagemPainel) {
+                imgElement.src = imagemPainel;
+                document.querySelector(".creditos-imagem").textContent =
+                    creditoPainel ? "Foto: " + creditoPainel : "Crédito da foto não informado";
+                return;
+            }
+
+            const data = images[animalName];
+
+            if (!data) {
+
+                imgElement.src = "";
+
+                autorElement.textContent = "Autor: desconhecido";
+                fonteElement.textContent = "Fonte: desconhecida";
+                licencaElement.textContent = "Licença: desconhecida";
+
+                return;
+            }
+
+            imgElement.src = data.url;
+
+            autorElement.textContent = "Autor: " + data.autor;
+            fonteElement.textContent = "Fonte: " + data.fonte;
+            licencaElement.textContent = "Licença: " + data.licenca;
+        }
+
+        carregarImagem();
+
+        // ---- Dados da especie (vindos do Painel Cientifico pelo link do popup) ----
+        const ehPlanta = getQueryParam("division") === "Plantae";
+        const DIVISOES = { "Plantae": "Planta", "1": "Vertebrado", "2": "Invertebrado" };
+
+        // Todos os cards aparecem sempre: se nao ha dado no Painel, mostra um aviso
+        // ("Nao consta informacao." ou "Nao se aplica" para o que nao existe na categoria).
+        function preencherCard(id, valor, vazio = "Não consta informação.") {
+            document.getElementById(id).textContent = valor || vazio;
+        }
+
+        preencherCard("scientific-name", getQueryParam("scientific_name"));
+        preencherCard("family", getQueryParam("family"));
+        preencherCard("curiosities", getQueryParam("curiosities"));
+        preencherCard("geographic-distribution", getQueryParam("geographic_distribution"));
+        preencherCard("division", DIVISOES[getQueryParam("division")]);
+
+        // O Painel nao tem "nomes conhecidos".
+        preencherCard("known-names", "");
+
+        // Alimentacao, ordem, habitos e habitat so existem para animais.
+        const vazioCampoDeAnimal = ehPlanta ? "Não se aplica" : "Não consta informação.";
+        preencherCard("food", getQueryParam("food"), vazioCampoDeAnimal);
+        preencherCard("order", getQueryParam("order"), vazioCampoDeAnimal);
+        preencherCard("habits", getQueryParam("habits"), vazioCampoDeAnimal);
+        preencherCard("habitat", getQueryParam("habitat"), vazioCampoDeAnimal);
+
+        // Cards com texto longo rolam; sem isso o teclado nao consegue ler o resto (WCAG 2.1.1).
+        function tornarCardsRolaveisFocaveis() {
+            document.querySelectorAll(".detail-card").forEach(function (card) {
+                if (card.scrollHeight > card.clientHeight) {
+                    card.tabIndex = 0;
+                    card.setAttribute("role", "group");
+                    card.setAttribute("aria-label", card.querySelector("h5").textContent);
+                }
+            });
+        }
+        tornarCardsRolaveisFocaveis();
+        window.addEventListener("resize", tornarCardsRolaveisFocaveis);
+
+document.getElementById("btn-voltar").addEventListener("click", function () { history.back(); });

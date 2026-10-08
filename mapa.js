@@ -351,13 +351,13 @@ function atualizarEstadoBotoes() {
     botao.style.boxShadow = '';
   });
 
-  const btnMapa = document.querySelector('button[onclick="usarMapaNormal()"]');
-  const btnImagem = document.querySelector('button[onclick="usarImagemFundo()"]');
+  const btnMapa = document.querySelector('#btn-mapa');
+  const btnImagem = document.querySelector('#btn-imagem');
   if (btnMapa) btnMapa.setAttribute('aria-pressed', String(estadoAtual === 'mapa'));
   if (btnImagem) btnImagem.setAttribute('aria-pressed', String(estadoAtual === 'imagem'));
 
   if (estadoAtual === 'mapa') {
-    const botaoMapa = document.querySelector('button[onclick="usarMapaNormal()"]');
+    const botaoMapa = document.querySelector('#btn-mapa');
     if (botaoMapa) {
       botaoMapa.classList.add('ativo');
       botaoMapa.style.backgroundColor = '#1d4ed8';
@@ -365,7 +365,7 @@ function atualizarEstadoBotoes() {
       botaoMapa.style.boxShadow = '0 6px 18px rgba(29, 78, 216, 0.4)';
     }
   } else {
-    const botaoImagem = document.querySelector('button[onclick="usarImagemFundo()"]');
+    const botaoImagem = document.querySelector('#btn-imagem');
     if (botaoImagem) {
       botaoImagem.classList.add('ativo');
       botaoImagem.style.backgroundColor = '#1d4ed8';
@@ -381,4 +381,10 @@ document.addEventListener('DOMContentLoaded', atualizarEstadoBotoes);
 // ESC volta ao mapa
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && estadoAtual === 'imagem') usarMapaNormal();
+});
+
+// Botoes de visualizacao (antes eram onclick no HTML, que a CSP nao permite)
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('btn-mapa').addEventListener('click', usarMapaNormal);
+  document.getElementById('btn-imagem').addEventListener('click', usarImagemFundo);
 });
